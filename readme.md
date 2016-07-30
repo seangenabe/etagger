@@ -1,4 +1,4 @@
-# hapi-etag
+# etagger
 
 hapi Etag helper plugin
 
@@ -9,7 +9,7 @@ hapi Etag helper plugin
 
 server.register(
   {
-    register: require('hapi-etag'),
+    register: require('etagger'),
     options: pluginOptions
   },
   options,
@@ -32,7 +32,7 @@ These options can either be set in the plugin options (see above) or per-route:
 {
   "config": {
     "plugins": {
-      "hapi-etag": {
+      "etagger": {
         /* ... */
       }
     }
@@ -44,7 +44,7 @@ When set in the route, these options will override the plugin options.
 
 ### Events
 
-Events are emitted by an `EventEmitter` accessible from `server.plugins['hapi-etag'].events`.
+Events are emitted by an `EventEmitter` accessible from `server.plugins['etagger'].events`.
 
 #### `newResponse(request, reply)`
 
