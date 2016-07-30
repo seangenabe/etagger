@@ -1,5 +1,12 @@
 # etagger
 
+[![npm](https://img.shields.io/npm/v/etagger.svg?style=flat-square)](https://www.npmjs.com/package/etagger)
+[![Build Status](https://img.shields.io/travis/seangenabe/etagger/master.svg?style=flat-square)](https://travis-ci.org/seangenabe/etagger)
+[![Coverage Status](https://img.shields.io/coveralls/seangenabe/etagger/master.svg?style=flat-square)](https://coveralls.io/github/seangenabe/etagger?branch=master)
+[![Dependency Status](https://img.shields.io/david/seangenabe/etagger.svg?style=flat-square)](https://david-dm.org/seangenabe/etagger)
+[![devDependency Status](https://img.shields.io/david/dev/seangenabe/etagger.svg?style=flat-square)](https://david-dm.org/seangenabe/etagger#info=devDependencies)
+[![node](https://img.shields.io/node/v/etagger.svg?style=flat-square)](https://nodejs.org/en/download/)
+
 hapi Etag helper plugin
 
 ## Usage

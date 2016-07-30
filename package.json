@@ -44,5 +44,8 @@
   "nyc": {
     "sourceMap": false,
     "instrument": false
+  },
+  "engines": {
+    "node": ">=4.0.0"
   }
 }
