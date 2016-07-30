@@ -153,5 +153,7 @@ t.test("buffer", async t => {
 })
 
 function createBuffer(...array) {
-  return Buffer.from ? Buffer.from(array) : new Buffer(array)
+  return Number(/v([^\.]*)/.exec(process.version)[1]) < 6 
+    ? new Buffer(array) 
+    : Buffer.from(array)
 }
