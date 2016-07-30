@@ -36,7 +36,7 @@
     "babel-plugin-transform-es2015-parameters": "^6.11.4",
     "babel-plugin-transform-strict-mode": "^6.11.3",
     "cross-env": "^2.0.0",
-    "hapi": "^13.5.0",
+    "hapi": "^14.0.0",
     "joi": "^9.0.1",
     "tap": "^6.2.0"
   },
