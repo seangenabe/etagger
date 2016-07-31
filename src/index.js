@@ -21,10 +21,10 @@ module.exports = function hapiEtag(
       if (response == null) {
         return
       }
-      let { source, variety, statusCode } = response
-      if (source instanceof Error) {
+      if (response instanceof Error) {
         return
       }
+      let { source, variety, statusCode } = response
       if (opts.nonSuccess && !(statusCode >= 200 && statusCode < 300)) {
         return
       }

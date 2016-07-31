@@ -5,10 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "compile": "babel src --out-dir dist",
-    "compile:test": "babel test/test-src.js -o test/test.js",
+    "compile:test": "babel test/src --out-dir test/lib",
     "pretest:tap": "cross-env BABEL_ENV=test npm run compile && npm run compile:test",
-    "test:tap": "tap test/test.js",
-    "test:tap:cov": "npm run test:tap -- --cov",
+    "test:tap": "tap test/lib/test.js",
+    "test:cov": "npm run test:tap -- --cov",
     "test": "cross-env NODE_DEBUG=hapi-etag npm run test:tap",
     "posttest": "npm run compile"
   },
@@ -36,6 +36,7 @@
     "babel-plugin-transform-es2015-destructuring": "^6.9.0",
     "babel-plugin-transform-es2015-parameters": "^6.11.4",
     "babel-plugin-transform-strict-mode": "^6.11.3",
+    "boom": "^3.2.2",
     "cross-env": "^2.0.0",
     "hapi": "^14.0.0",
     "joi": "^9.0.1",

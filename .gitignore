@@ -1,5 +1,5 @@
 node_modules/
-test/test.js
+test/lib
 *.log
 *.log.*
 .nyc_output
