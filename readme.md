@@ -1,13 +1,13 @@
 # etagger
 
+hapi Etag helper plugin
+
 [![npm](https://img.shields.io/npm/v/etagger.svg?style=flat-square)](https://www.npmjs.com/package/etagger)
 [![Build Status](https://img.shields.io/travis/seangenabe/etagger/master.svg?style=flat-square)](https://travis-ci.org/seangenabe/etagger)
 [![Coverage Status](https://img.shields.io/coveralls/seangenabe/etagger/master.svg?style=flat-square)](https://coveralls.io/github/seangenabe/etagger?branch=master)
 [![Dependency Status](https://img.shields.io/david/seangenabe/etagger.svg?style=flat-square)](https://david-dm.org/seangenabe/etagger)
 [![devDependency Status](https://img.shields.io/david/dev/seangenabe/etagger.svg?style=flat-square)](https://david-dm.org/seangenabe/etagger#info=devDependencies)
 [![node](https://img.shields.io/node/v/etagger.svg?style=flat-square)](https://nodejs.org/en/download/)
-
-hapi Etag helper plugin
 
 ## Usage
 
@@ -26,7 +26,7 @@ server.register(
 
 ### Options
 
-* `enabled: Boolean` - Enable processing for the server/the current route. (Default: `undefined`  - **not enabled by default**.)
+* `enabled: Boolean` - Enable processing for the connection/the current route. (Default: `undefined`  - **not enabled by default**.)
 * `nonSuccess: Boolean` - Enable processing for non-success (_not_ 2xx) status codes. (Default: `undefined`)
 
 For string and buffer response sources, the ETag will simply be attached.
@@ -49,13 +49,13 @@ These options can either be set in the plugin options (see above) or per-route:
 
 When set in the route, these options will override the plugin options.
 
-### Events
+### server.plugins.etagger.etag(response, opts)
 
-Events are emitted by an `EventEmitter` accessible from `server.plugins['etagger'].events`.
+Manually attach an ETag to a response. This is useful i.e. to etag manually in your own extension handlers.
 
-#### `newResponse(request, reply)`
-
-If `stable === true`, the response will be replaced with a new response. Listen to this event if you wish to modify the new response further.
+* `response` - The response object.
+* `opts` - Same as the options.
+  * `enabled` - Ignored. This function will always attach an ETag to the response.
 
 ### No stream support
 

@@ -153,7 +153,28 @@ t.test("buffer", async t => {
 })
 
 function createBuffer(...array) {
-  return Number(/v([^\.]*)/.exec(process.version)[1]) < 6 
-    ? new Buffer(array) 
+  return Number(/v([^\.]*)/.exec(process.version)[1]) < 6
+    ? new Buffer(array)
     : Buffer.from(array)
 }
+
+t.test("manual etag", async t => {
+  const server = new Server()
+  server.connection()
+  await server.register(Plugin)
+  server.route({
+    path: '/',
+    method: 'GET',
+    handler(request, reply) {
+      reply('a')
+    }
+  })
+  server.ext('onPostHandler', (request, reply) => {
+    server.plugins.etagger.etag(reply(`${request.response.source}b`))
+  })
+
+  let response = await server.inject('/')
+  t.equals(response.result, 'ab')
+  let etag = response.headers.etag
+  t.ok(etag, "must transmit etag")
+})

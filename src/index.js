@@ -14,49 +14,58 @@ module.exports = function hapiEtag(
   pluginOpts,
   next) {
   (async () => {
+    function etagResponse(response, opts = {}) {
+      opts = Object.assign({}, pluginOpts)
+      opts = Joi.attempt(opts, optionsSchema)
+
+      if (response == null) {
+        return
+      }
+      let { source, variety, statusCode } = response
+      if (source instanceof Error) {
+        return
+      }
+      if (opts.nonSuccess && !(statusCode >= 200 && statusCode < 300)) {
+        return
+      }
+      switch (variety) {
+        case 'plain':
+          if (typeof source === 'string') {
+            response.etag(hash(source))
+          }
+          else {
+            let newSource = stringifyFromSettings(source, response)
+            let digest = hash(newSource)
+            // Yes, this is a hack, but it makes things much simpler.
+            response._setSource(newSource, 'plain')
+            response.type('application/json')
+            response.etag(digest)
+          }
+          break
+        case 'buffer':
+          response.etag(hash(source))
+          break
+      }
+    }
+
     try {
       server.ext('onPostHandler', (request, reply) => {
-        let settings = Object.assign(
+        let opts = Object.assign(
           {},
           request.route.settings.plugins[pkg.name],
           pluginOpts
         )
-        settings = Joi.attempt(settings, optionsSchema)
 
-        if (!settings.enabled) {
+        if (!opts.enabled) {
           return reply.continue()
         }
-        let { response } = request
-        if (response == null) {
-          return reply.continue()
-        }
-        let { statusCode, source, variety } = response
-        if (source instanceof Error) {
-          return reply.continue()
-        }
-        if (settings.nonSuccess && !(statusCode >= 200 && statusCode < 300)) {
-          return reply.continue()
-        }
-        switch (variety) {
-          case 'plain':
-            if (typeof source === 'string') {
-              response.etag(hash(source))
-            }
-            else {
-              let newSource = stringifyFromSettings(source, response)
-              let digest = hash(newSource)
-              // Yes, this is a hack, but it makes things much simpler.
-              response._setSource(newSource, 'plain')
-              response.type('application/json')
-              response.etag(digest)
-            }
-            break
-          case 'buffer':
-            response.etag(hash(source))
-            break
-        }
+
+        etagResponse(request.response, opts)
+
         reply.continue()
       })
+
+      server.expose('etag', etagResponse)
 
       next()
     }
