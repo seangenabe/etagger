@@ -5,12 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "compile": "babel src --out-dir dist",
-    "compile:test": "babel test/src --out-dir test/lib",
-    "pretest:tap": "cross-env BABEL_ENV=test npm run compile && npm run compile:test",
-    "test:tap": "tap test/lib/test.js",
-    "test:cov": "npm run test:tap -- --cov",
-    "test": "cross-env NODE_DEBUG=hapi-etag npm run test:tap",
-    "posttest": "npm run compile"
+    "test": "nyc ava",
+    "pretest": "cross-env BABEL_ENV=test npm run compile",
+    "posttest": "npm run compile",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -30,6 +28,7 @@
     "json-stable-stringify": "^1.0.1"
   },
   "devDependencies": {
+    "ava": "^0.15.2",
     "babel-cli": "^6.11.4",
     "babel-plugin-istanbul": "^1.0.3",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
@@ -40,7 +39,9 @@
     "cross-env": "^2.0.0",
     "hapi": "^14.0.0",
     "joi": "^9.0.1",
-    "tap": "^6.2.0"
+    "nyc": "^7.1.0",
+    "tap": "^6.2.0",
+    "tapromise": "^1.1.0"
   },
   "nyc": {
     "sourceMap": false,
@@ -48,5 +49,14 @@
   },
   "engines": {
     "node": ">=4.0.0"
+  },
+  "ava": {
+    "files": [
+      "test/test.js"
+    ],
+    "source": [
+      "src/*.js"
+    ],
+    "failFast": true
   }
 }

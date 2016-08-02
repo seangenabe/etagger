@@ -5,22 +5,24 @@ const Joi = require('joi')
 
 const optionsSchema = Joi.object().keys({
   enabled: Joi.boolean(),
-  nonSuccess: Joi.boolean(),
-  stable: Joi.valid([true, false, 'noReplace'])
+  nonSuccess: Joi.boolean()
 })
 
 module.exports = function hapiEtag(
   server,
-  pluginOpts,
+  _pluginOpts = {},
   next) {
   (async () => {
-    function etagResponse(response, opts = {}) {
-      opts = Object.assign({}, pluginOpts)
+    let pluginOpts
+
+    function etagResponse(response, opts = {}, alwaysEnabled) {
+      opts = Object.assign({}, pluginOpts, opts)
       opts = Joi.attempt(opts, optionsSchema)
 
-      if (response == null) {
+      if (!(alwaysEnabled || opts.enabled)) {
         return
       }
+
       if (response instanceof Error) {
         return
       }
@@ -48,24 +50,22 @@ module.exports = function hapiEtag(
       }
     }
 
+    function etagResponseAlwaysEnabled(response, opts) {
+      return etagResponse(response, opts, true)
+    }
+
     try {
+      pluginOpts = Joi.attempt(_pluginOpts, optionsSchema)
       server.ext('onPostHandler', (request, reply) => {
-        let opts = Object.assign(
-          {},
-          request.route.settings.plugins[pkg.name],
-          pluginOpts
+        etagResponse(
+          request.response,
+          request.route.settings.plugins[pkg.name]
         )
-
-        if (!opts.enabled) {
-          return reply.continue()
-        }
-
-        etagResponse(request.response, opts)
 
         reply.continue()
       })
 
-      server.expose('etag', etagResponse)
+      server.expose('etag', etagResponseAlwaysEnabled)
 
       next()
     }

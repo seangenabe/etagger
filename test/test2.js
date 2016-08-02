@@ -1,9 +1,25 @@
-const Plugin = require('../..')
+const pkgname = require('../package').name
+const assert = require('assert')
+const Plugin = require('..')
 const { Server } = require('hapi')
 const Boom = require('boom')
-const pkgname = require('../../package').name
 
-module.exports = async function createServer(pluginOpts) {
+console.log('start')
+
+;(async () => {
+  try {
+    let serverNoOptions = await createServer()
+    let response = await serverNoOptions.inject('/manual')
+    assert(response.result, 'ab')
+    assert(response.headers.etag)
+  }
+  catch (err) {
+    console.error(err.stack)
+  }
+  console.log('done')
+})()
+
+async function createServer(pluginOpts) {
   const server = new Server()
   server.connection()
   await server.register({
@@ -86,11 +102,20 @@ module.exports = async function createServer(pluginOpts) {
   ])
 
   server.ext('onPostHandler', (request, reply) => {
-    if (request.path === '/manual') {
-      server.plugins[pkgname].etag(reply(`${request.response.source}b`))
-      return
+    try {
+      if (request.path === '/manual') {
+        let response = reply(`${request.response.source}b`)
+        console.log('calling etagger')
+        debugger
+        server.plugins[pkgname].etag(response)
+        console.log('called etagger')
+        return
+      }
+      reply.continue()
     }
-    reply.continue()
+    catch (err) {
+      console.error(err.stack)
+    }
   })
 
   return server

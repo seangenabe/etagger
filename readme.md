@@ -31,7 +31,7 @@ server.register(
 
 For string and buffer response sources, the ETag will simply be attached.
 
-Stream response sources are ignored.
+Stream and error response sources are ignored.
 
 These options can either be set in the plugin options (see above) or per-route:
 
