@@ -38,6 +38,9 @@ module.exports = function hapiEtag(
           else {
             let newSource = stringifyFromSettings(source, response)
             let digest = hash(newSource)
+            if (source === null) {
+              newSource = null // Special value when `null` is passed.
+            }
             // Yes, this is a hack, but it makes things much simpler.
             response._setSource(newSource, 'plain')
             response.type('application/json')

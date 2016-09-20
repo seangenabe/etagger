@@ -84,6 +84,17 @@ t('boom', async t => {
   t.is(response.result.message, 'xyz')
 })
 
+t('empty reply', async t => {
+  let response = await server.inject('/empty-reply')
+  t.is(response.payload, '')
+  let response2 = await server.inject({
+    url: '/empty-reply',
+    headers: { 'if-none-match': response.headers.etag }
+  })
+  t.is(response2.statusCode, 304, "must be 304 Not Modified")
+  t.is(response2.rawPayload.length, 0, "must have zero-length payload")
+})
+
 t("plugin error", t => {
   t.throws(createServer({ unknown: NaN }))
 })
@@ -204,6 +215,13 @@ async function createServer(pluginOpts, hapiOpts) {
       handler(request, reply) {
         let err = Boom.create(418, 'xyz', { a: 1, b: 2 })
         reply(err)
+      }
+    },
+    {
+      path: '/empty-reply',
+      method: 'GET',
+      handler(request, reply) {
+        reply()
       }
     }
   ])
