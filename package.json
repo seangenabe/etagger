@@ -37,7 +37,7 @@
     "babel-plugin-transform-strict-mode": "^6.11.3",
     "boom": "^4.0.0",
     "coveralls": "^2.11.12",
-    "cross-env": "^2.0.0",
+    "cross-env": "^3.0.0",
     "hapi": "^15.0.3",
     "joi": "^9.0.1",
     "nyc": "^8.1.0"
