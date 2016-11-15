@@ -40,7 +40,7 @@
     "cross-env": "^3.0.0",
     "hapi": "^15.0.3",
     "joi": "^9.0.1",
-    "nyc": "^8.1.0"
+    "nyc": "^9.0.1"
   },
   "nyc": {
     "sourceMap": false,
