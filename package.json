@@ -1,6 +1,6 @@
 {
   "name": "etagger",
-  "version": "2.0.0",
+  "version": "2.0.1-0",
   "description": "hapi ETag helper plugin",
   "main": "dist/index.js",
   "scripts": {
