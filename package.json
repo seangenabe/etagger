@@ -28,9 +28,9 @@
     "json-stable-stringify": "^1.0.1"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.17.0",
     "babel-cli": "^6.11.4",
-    "babel-plugin-istanbul": "^2.0.1",
+    "babel-plugin-istanbul": "^3.0.0",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-es2015-destructuring": "^6.9.0",
     "babel-plugin-transform-es2015-parameters": "^6.11.4",
@@ -40,7 +40,7 @@
     "cross-env": "^3.0.0",
     "hapi": "^16.0.0",
     "joi": "^10.0.0",
-    "nyc": "^9.0.1"
+    "nyc": "^10.0.0"
   },
   "nyc": {
     "sourceMap": false,
