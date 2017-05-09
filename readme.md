@@ -1,5 +1,7 @@
 # etagger
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/seangenabe/etagger.svg)](https://greenkeeper.io/)
+
 hapi Etag helper plugin
 
 [![npm](https://img.shields.io/npm/v/etagger.svg?style=flat-square)](https://www.npmjs.com/package/etagger)
