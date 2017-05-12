@@ -79,7 +79,7 @@ module.exports = function hapiEtag(
 }
 
 function hash(data) {
-  let h = Crypto.createHash('sha1')
+  let h = Crypto.createHash('SHA256')
   h.update(data)
   return h.digest('base64')
 }
