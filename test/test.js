@@ -102,7 +102,7 @@ t("plugin error", t => {
 t("route error", async t => {
   const server = await createServer(
     { enabled: true },
-    { debug: {} }
+    { debug: false }
   )
   server.route({
     path: '/test',
