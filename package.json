@@ -28,7 +28,7 @@
     "json-stable-stringify": "^1.0.1"
   },
   "devDependencies": {
-    "ava": "^0.18.0",
+    "ava": "^0.19.1",
     "babel-cli": "^6.11.4",
     "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
@@ -55,7 +55,6 @@
     ],
     "source": [
       "src/*.js"
-    ],
-    "failFast": true
+    ]
   }
 }

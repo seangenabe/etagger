@@ -1,5 +1,6 @@
 const t = require('ava')
 const pkgname = require('../package').name
+const Domain = require('domain')
 
 let serverNoOptions
 let server
@@ -95,15 +96,21 @@ t('empty reply', async t => {
   t.is(response2.rawPayload.length, 0, "must have zero-length payload")
 })
 
-t("plugin error", t => {
-  t.throws(createServer({ unknown: NaN }))
+t("plugin error", async t => {
+  await t.throws(createServer({ unknownPluginOption: NaN }))
 })
 
 t("route error", async t => {
-  const server = await createServer(
-    { enabled: true },
-    { debug: false }
-  )
+  const server = await createServer({ enabled: true }, { debug: false })
+
+  let p = new Promise((resolve, reject) => {
+    server.on('request-error', (_, e) => {
+      if (e.name === 'ValidationError') {
+        reject(e)
+      }
+    })
+  })
+
   server.route({
     path: '/test',
     method: 'GET',
@@ -111,26 +118,15 @@ t("route error", async t => {
     config: {
       plugins: {
         [pkgname]: {
-          unknown: NaN
+          unknownRouteOption: NaN
         }
       }
     }
   })
 
-  let p = Promise.race([
-    new Promise((resolve, reject) => {
-      server.on('request-error', (_, e) => {
-        if (e.name === 'ValidationError') {
-          reject(e)
-        }
-      })
-    }),
-    new Promise(resolve => setTimeout(() => {
-      resolve(Infinity)
-    }, 10000))
-  ])
   server.inject('/test')
-  t.throws(p)
+
+  await t.throws(p)
 })
 
 const Plugin = require('..')
