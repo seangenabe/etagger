@@ -37,7 +37,7 @@
     "babel-plugin-transform-es2015-parameters": "^6.11.4",
     "babel-plugin-transform-strict-mode": "^6.11.3",
     "boom": "^5.0.0",
-    "coveralls": "^2.11.12",
+    "coveralls": "^3.0.0",
     "cross-env": "^5.0.0",
     "hapi": "^16.1.1",
     "joi": "^11.0.0",
