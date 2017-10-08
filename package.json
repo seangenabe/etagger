@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/seangenabe/etagger#readme",
   "dependencies": {
-    "json-stable-stringify": "^1.0.1"
+    "json-stable-stringify": "^1.0.1",
+    "joi": "^11.0.0"
   },
   "devDependencies": {
     "ava": "^0.22.0",
@@ -40,7 +41,6 @@
     "coveralls": "^3.0.0",
     "cross-env": "^5.0.0",
     "hapi": "^16.1.1",
-    "joi": "^11.0.0",
     "nyc": "^11.0.1"
   },
   "nyc": {
