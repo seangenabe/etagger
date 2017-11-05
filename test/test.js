@@ -135,9 +135,8 @@ const Boom = require('boom')
 
 async function createServer(pluginOpts, hapiOpts) {
   const server = new Server(hapiOpts)
-  server.connection()
   await server.register({
-    register: Plugin,
+    plugin: Plugin,
     options: pluginOpts
   })
 
@@ -145,15 +144,15 @@ async function createServer(pluginOpts, hapiOpts) {
     {
       path: '/disabled',
       method: 'GET',
-      handler(request, reply) {
-        reply({ a: 1, b: 2 }).header('x-foo', 'bar')
+      handler(request, h) {
+        return h.response({ a: 1, b: 2 }).header('x-foo', 'bar')
       }
     },
     {
       path: '/enabled',
       method: 'GET',
-      handler(request, reply) {
-        reply({ a: 1, b: 2 }).header('x-foo', 'bar')
+      handler(request, h) {
+        return h.response({ a: 1, b: 2 }).header('x-foo', 'bar')
       },
       config: {
         plugins: {
@@ -166,69 +165,69 @@ async function createServer(pluginOpts, hapiOpts) {
     {
       path: '/alternative',
       method: 'GET',
-      handler(request, reply) {
-        reply({ b: 2, a: 1 })
+      handler() {
+        return { b: 2, a: 1 }
       }
     },
     {
       path: '/promise',
       method: 'GET',
-      handler(request, reply) {
-        reply(Promise.resolve({ a: 1, b: 2 }))
+      handler() {
+        return Promise.resolve({ a: 1, b: 2 })
       }
     },
     {
       path: '/buffer',
       method: 'GET',
-      handler(request, reply) {
-        reply(createBuffer(1, 2, 3))
+      handler() {
+        return createBuffer(1, 2, 3)
       }
     },
     {
       path: '/manual',
       method: 'GET',
-      handler(request, reply) {
-        reply('a')
+      handler() {
+        return 'a'
       }
     },
     {
       path: '/nonsuccess',
       method: 'GET',
-      handler(request, reply) {
-        reply('a').code(400)
+      handler(request, h) {
+        return h.response('a').code(400)
       }
     },
     {
       path: '/error',
       method: 'GET',
-      handler(request, reply) {
-        reply(new Error('xyz'))
+      handler() {
+        throw new Error('xyz')
       }
     },
     {
       path: '/boom',
       method: 'GET',
-      handler(request, reply) {
-        let err = Boom.create(418, 'xyz', { a: 1, b: 2 })
-        reply(err)
+      handler() {
+        throw Boom.create(418, 'xyz', { a: 1, b: 2 })
       }
     },
     {
       path: '/empty-reply',
       method: 'GET',
-      handler(request, reply) {
-        reply()
+      handler() {
+        return ''
       }
     }
   ])
 
-  server.ext('onPostHandler', (request, reply) => {
+  server.ext('onPostHandler', (request, h) => {
     try {
       if (request.path === '/manual') {
-        server.plugins[pkgname].etag(reply(`${request.response.source}b`))
-        return
+        const response = h.response(`${request.response.source}b`)
+        server.plugins[pkgname].etag(response)
+        return response
       }
-      reply.continue()
+      return h.continue
     }
     catch (err) {
       console.error(err.stack)

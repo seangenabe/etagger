@@ -2,12 +2,9 @@
   "name": "etagger",
   "version": "3.0.2",
   "description": "hapi ETag helper plugin",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
-    "compile": "babel src --out-dir dist",
     "test": "nyc ava",
-    "pretest": "cross-env BABEL_ENV=test npm run compile",
-    "posttest": "npm run compile",
     "report": "nyc report --reporter=html",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -31,27 +28,21 @@
   },
   "devDependencies": {
     "ava": "^0.23.0",
-    "babel-cli": "^6.11.4",
-    "babel-plugin-istanbul": "^4.1.1",
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
-    "babel-plugin-transform-es2015-parameters": "^6.11.4",
-    "babel-plugin-transform-strict-mode": "^6.11.3",
     "boom": "^5.0.0",
     "coveralls": "^3.0.0",
     "cross-env": "^5.0.0",
-    "hapi": "^16.1.1",
+    "hapi": "^17.0.0",
     "nyc": "^11.0.1"
   },
   "peerDependencies": {
-    "hapi": "<=16.x"
+    "hapi": ">=17.x"
   },
   "nyc": {
     "sourceMap": false,
     "instrument": false
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.0.0"
   },
   "ava": {
     "files": [

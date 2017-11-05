@@ -4,4 +4,3 @@ test/lib
 *.log.*
 .nyc_output
 coverage
-dist
