@@ -17,15 +17,12 @@ hapi Etag helper plugin
 ## Usage
 
 ```javascript
-// server.connection(...)
-
-server.register(
+await server.register(
   {
-    register: require('etagger'),
+    plugin: require('etagger'),
     options: pluginOptions
   },
-  options,
-  callback
+  options
 )
 ```
 
