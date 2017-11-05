@@ -9,6 +9,10 @@ hapi Etag helper plugin
 [![devDependency Status](https://img.shields.io/david/dev/seangenabe/etagger.svg?style=flat-square)](https://david-dm.org/seangenabe/etagger#info=devDependencies)
 [![node](https://img.shields.io/node/v/etagger.svg?style=flat-square)](https://nodejs.org/en/download/)
 
+## Versions
+
+* v3.x - hapi v16 compatible
+
 ## Usage
 
 ```javascript
