@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/seangenabe/etagger#readme",
   "dependencies": {
-    "json-stable-stringify": "^1.0.1",
-    "joi": "^11.0.0"
+    "joi": "^13.0.1",
+    "json-stable-stringify": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.23.0",
-    "boom": "^5.0.0",
+    "boom": "^7.1.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.0.0",
     "hapi": "^17.0.0",
