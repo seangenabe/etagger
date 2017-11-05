@@ -208,6 +208,10 @@ async function createServer(pluginOpts, hapiOpts) {
       path: '/boom',
       method: 'GET',
       handler() {
+        throw new Boom('xyz', {
+          statusCode: 418,
+          data: { a: 1, b: 2 }
+        })
         throw Boom.create(418, 'xyz', { a: 1, b: 2 })
       }
     },
