@@ -11,8 +11,8 @@ hapi Etag helper plugin
 
 ## Versions
 
-* v3.x - hapi v16 compatible
-* >= v4 - latest hapi
+* `3.x` - last version compatible with hapi 16
+* `>=4` - latest hapi
 
 ## Usage
 
