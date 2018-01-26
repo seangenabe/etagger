@@ -27,7 +27,7 @@
     "json-stable-stringify": "^1.0.1"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
+    "ava": "^0.25.0",
     "boom": "^7.1.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.0.0",
