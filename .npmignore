@@ -1,5 +1,10 @@
-node_modules/
-*.log
-*.log.*
-.nyc_output
-coverage
+.nyc_output/**
+coverage/**
+.vscode/**
+**/*.ts
+!**/*.d.ts
+test/**
+.gitattributes
+.prettier*
+.travis.yml
+tsconfig.json

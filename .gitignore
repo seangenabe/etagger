@@ -4,3 +4,7 @@ test/lib
 *.log.*
 .nyc_output
 coverage
+**/*.js
+**/*.js.map
+**/*.d.ts
+**/*.d.ts.map

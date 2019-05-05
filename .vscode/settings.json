@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    ".nyc_output": true,
+    "**/*.{js,d.ts}{,.map}": true
+  },
+  "editor.formatOnSave": true
+}

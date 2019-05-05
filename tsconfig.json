@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "sourceMap": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "**/*"
+  ]
+}

@@ -2,44 +2,47 @@
   "name": "etagger",
   "version": "5.0.1",
   "description": "hapi ETag helper plugin",
-  "main": "index.js",
-  "scripts": {
-    "test": "nyc ava",
-    "report": "nyc report --reporter=html",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+  "keywords": [
+    "etag",
+    "hapi"
+  ],
+  "homepage": "https://github.com/seangenabe/etagger#readme",
+  "bugs": {
+    "url": "https://github.com/seangenabe/etagger/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/seangenabe/etagger.git"
   },
-  "keywords": [
-    "etag",
-    "hapi"
-  ],
-  "author": "Sean Genabe <seangenabe@outlook.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/seangenabe/etagger/issues"
+  "author": "Sean Genabe <seangenabe@outlook.com>",
+  "main": "index.js",
+  "scripts": {
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "report": "nyc report --reporter=html",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "pretest": "tsc",
+    "test": "nyc ava"
   },
-  "homepage": "https://github.com/seangenabe/etagger#readme",
   "dependencies": {
-    "joi": "^13.0.1",
+    "@hapi/joi": "^15.0.1",
+    "@types/hapi__hapi": "^18.2.1",
+    "@types/json-stable-stringify": "^1.0.32",
     "json-stable-stringify": "^1.0.1"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "boom": "^7.1.1",
+    "@hapi/boom": "^7.4.2",
+    "@hapi/hapi": "^18.3.1",
+    "@types/node": "^12.0.0",
+    "ava": "^1.4.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.0.0",
-    "hapi": "^17.0.0",
-    "nyc": "^12.0.1"
+    "nyc": "^14.1.0",
+    "typescript": "^3.4.5"
   },
   "peerDependencies": {
     "hapi": ">=17.x"
-  },
-  "nyc": {
-    "sourceMap": false,
-    "instrument": false
   },
   "engines": {
     "node": ">=8.0.0"
@@ -48,8 +51,12 @@
     "files": [
       "test/test.js"
     ],
-    "source": [
+    "sources": [
       "src/*.js"
     ]
+  },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
   }
 }
