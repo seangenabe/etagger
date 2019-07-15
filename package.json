@@ -42,7 +42,7 @@
     "typescript": "^3.4.5"
   },
   "peerDependencies": {
-    "hapi": ">=17.x"
+    "@hapi/hapi": ">=17.x"
   },
   "engines": {
     "node": ">=8.0.0"
