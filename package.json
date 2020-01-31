@@ -27,7 +27,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@hapi/joi": "^15.0.1",
+    "@hapi/joi": "^17.1.0",
     "@types/hapi__hapi": "^18.2.1",
     "@types/json-stable-stringify": "^1.0.32",
     "json-stable-stringify": "^1.0.1"
