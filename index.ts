@@ -2,12 +2,12 @@ import stableStringify from "json-stable-stringify"
 import Joi from "@hapi/joi"
 import { createHash, BinaryLike } from "crypto"
 import { Plugin, ResponseObject } from "@hapi/hapi"
-import Boom from "@hapi/boom"
+import { Boom } from "@hapi/boom"
 const pkg = require("./package")
 
 const optionsSchema = Joi.object().keys({
   enabled: Joi.boolean(),
-  nonSuccess: Joi.boolean()
+  nonSuccess: Joi.boolean(),
 })
 
 const Etagger: Plugin<Etagger.Options> = {
@@ -79,7 +79,7 @@ const Etagger: Plugin<Etagger.Options> = {
     })
 
     server.expose("etag", etagResponseAlwaysEnabled)
-  }
+  },
 }
 
 namespace Etagger {

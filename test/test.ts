@@ -1,6 +1,6 @@
 import test from "ava"
 import { Server, ServerOptions, ResponseObject } from "@hapi/hapi"
-import Boom from "@hapi/boom"
+import { Boom } from "@hapi/boom"
 import Plugin = require("..")
 const pkgname = require("../package").name
 
@@ -12,59 +12,59 @@ test.before(async () => {
   server = await createServer({ enabled: true })
 })
 
-test("basic negative", async t => {
+test("basic negative", async (t) => {
   let response = await serverNoOptions.inject("/disabled")
   let { etag } = response.headers
   t.falsy(etag, "must be unset: disabled by default")
 })
 
-test("basic positive", async t => {
+test("basic positive", async (t) => {
   let response = await serverNoOptions.inject("/enabled")
   let { etag } = response.headers
   t.truthy(etag, "must be set: route override")
 
   let response2 = await serverNoOptions.inject({
     url: "/enabled",
-    headers: { "if-none-match": etag }
+    headers: { "if-none-match": etag },
   })
   t.is(response2.statusCode, 304, "must be 304 Not Modified")
   t.is(response2.rawPayload.length, 0, "must have zero-length payload")
   t.is(response.headers["x-foo"], "bar", "must be same response object")
 })
 
-test("stable etag", async t => {
+test("stable etag", async (t) => {
   let response = await server.inject("/enabled")
   let { etag } = response.headers
   let response2 = await server.inject({
     url: "/alternative",
-    headers: { "if-none-match": etag }
+    headers: { "if-none-match": etag },
   })
   t.is(response2.statusCode, 304, "must be 304 Not Modified")
   t.is(response2.rawPayload.length, 0, "must have zero-length payload")
 })
 
-test("promises", async t => {
+test("promises", async (t) => {
   let response = await server.inject("/enabled")
   let { etag } = response.headers
   let response2 = await server.inject({
     url: "/promise",
-    headers: { "if-none-match": etag }
+    headers: { "if-none-match": etag },
   })
   t.is(response2.statusCode, 304)
 })
 
-test("buffer", async t => {
+test("buffer", async (t) => {
   let response = await server.inject("/buffer")
   t.truthy(response.headers.etag)
 })
 
-test("manual etag", async t => {
+test("manual etag", async (t) => {
   let response = await serverNoOptions.inject("/manual")
   t.is((response.result as any) as string, "ab")
   t.truthy(response.headers.etag)
 })
 
-test("non-success status code", async t => {
+test("non-success status code", async (t) => {
   const myServer = await createServer({ nonSuccess: true, enabled: true })
   let response = await server.inject("/nonsuccess")
   t.is((response.result as any) as string, "a")
@@ -75,33 +75,33 @@ test("non-success status code", async t => {
   t.falsy(response2.headers.etag)
 })
 
-test("error", async t => {
+test("error", async (t) => {
   let response = await server.inject("/error")
   t.falsy(response.headers.etag)
 })
 
-test("boom", async t => {
+test("boom", async (t) => {
   let response = await server.inject("/boom")
   t.is(response.statusCode, 418)
   t.is((response.result! as Boom).message, "xyz")
 })
 
-test("empty reply", async t => {
+test("empty reply", async (t) => {
   let response = await server.inject("/empty-reply")
   t.is(response.payload, "")
   let response2 = await server.inject({
     url: "/empty-reply",
-    headers: { "if-none-match": response.headers.etag }
+    headers: { "if-none-match": response.headers.etag },
   })
   t.is(response2.statusCode, 304, "must be 304 Not Modified")
   t.is(response2.rawPayload.length, 0, "must have zero-length payload")
 })
 
-test("plugin error", async t => {
+test("plugin error", async (t) => {
   await t.throwsAsync(() => createServer({ unknownPluginOption: NaN } as any))
 })
 
-test("route error", async t => {
+test("route error", async (t) => {
   const server = await createServer({ enabled: true }, { debug: false })
 
   let p = new Promise((_, reject) => {
@@ -124,10 +124,10 @@ test("route error", async t => {
     options: {
       plugins: {
         [pkgname]: {
-          unknownRouteOption: NaN
-        }
-      }
-    }
+          unknownRouteOption: NaN,
+        },
+      },
+    },
   })
 
   server.inject("/test")
@@ -142,7 +142,7 @@ async function createServer(
   const server = new Server(hapiOpts)
   await server.register({
     plugin: Plugin,
-    options: pluginOpts
+    options: pluginOpts,
   })
 
   server.route([
@@ -151,7 +151,7 @@ async function createServer(
       method: "GET",
       handler(request, h) {
         return h.response({ a: 1, b: 2 }).header("x-foo", "bar")
-      }
+      },
     },
     {
       path: "/enabled",
@@ -162,67 +162,67 @@ async function createServer(
       options: {
         plugins: {
           [pkgname]: {
-            enabled: true
-          }
-        }
-      }
+            enabled: true,
+          },
+        },
+      },
     },
     {
       path: "/alternative",
       method: "GET",
       handler() {
         return { b: 2, a: 1 }
-      }
+      },
     },
     {
       path: "/promise",
       method: "GET",
       handler() {
         return Promise.resolve({ a: 1, b: 2 })
-      }
+      },
     },
     {
       path: "/buffer",
       method: "GET",
       handler() {
         return createBuffer(1, 2, 3)
-      }
+      },
     },
     {
       path: "/manual",
       method: "GET",
       handler() {
         return "a"
-      }
+      },
     },
     {
       path: "/nonsuccess",
       method: "GET",
       handler(request, h) {
         return h.response("a").code(400)
-      }
+      },
     },
     {
       path: "/error",
       method: "GET",
       handler() {
         throw new Error("xyz")
-      }
+      },
     },
     {
       path: "/boom",
       method: "GET",
       handler() {
         throw new Boom("xyz", { statusCode: 418, data: { a: 1, b: 2 } })
-      }
+      },
     },
     {
       path: "/empty-reply",
       method: "GET",
       handler() {
         return ""
-      }
-    }
+      },
+    },
   ])
 
   server.ext("onPostHandler", (request, h) => {
